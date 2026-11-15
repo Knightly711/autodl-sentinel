@@ -4,8 +4,6 @@
 
 ## Additional features
 
-The data disk filter and success alert sound were contributed by [KATare955](https://github.com/KATare955).
-
 ### 1. Minimum expandable data disk filter
 A new "Min expandable data disk (GB)" field filters candidate hosts by remaining expandable data disk capacity.
 Files: `market.py`, `app.py`, `static/index.html`, `static/panel.js`, `extension/translations.json`, `tests/test_grab.py`
