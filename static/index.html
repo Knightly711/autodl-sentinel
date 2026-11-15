@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#191d21">
+  <title data-i18n>AutoDL Sentinel · 本地控制台</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script defer src="/static/i18n.js"></script>
+  <script defer src="/static/panel.js"></script>
+</head>
+<body>
+<svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1v5m6-5v5M9 18v5m6-5v5M1 9h5m-5 6h5m12-6h5m-5 6h5"/><rect x="9" y="9" width="6" height="6" rx="1"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h5m4 0h7M4 17h9m4 0h3M9 3v8m4 2v8"/><circle cx="11" cy="7" r="2"/><circle cx="15" cy="17" r="2"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 3h7v7m0-7L10 14M10 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7a9 9 0 0 0-15-2L2 8m0-6v6h6m-4 9a9 9 0 0 0 15 2l3-3m0 6v-6h-6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+</svg>
+
+<aside class="sidebar">
+  <a class="brand" href="#" aria-label="AutoDL Sentinel"><span class="brand-mark"><i></i><i></i><i></i><i></i></span><span>AutoDL <b>Sentinel</b></span></a>
+  <div class="workspace-label">WORKSPACE <span>01</span></div>
+  <nav class="sidebar-nav" aria-label="工作区导航">
+    <a class="nav-item active" href="#workspace"><svg class="icon"><use href="#i-grid"/></svg><span data-i18n>任务工作台</span><span class="nav-dot"></span></a>
+    <div class="nav-heading" data-i18n>配置导航</div>
+    <a class="nav-item" href="#sourceSection"><svg class="icon"><use href="#i-copy"/></svg><span data-i18n>实例来源</span></a>
+    <a class="nav-item" href="#hardwareSection"><svg class="icon"><use href="#i-chip"/></svg><span data-i18n>目标硬件</span></a>
+    <a class="nav-item" href="#scheduleSection"><svg class="icon"><use href="#i-sliders"/></svg><span data-i18n>运行条件</span></a>
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="local-note"><span class="local-indicator"></span> LOCAL WORKSPACE</div>
+    <p data-i18n>浏览器会话与任务记录保存在本机。</p>
+    <div class="sidebar-version">AUTODL SENTINEL <span>LOCAL</span></div>
+  </div>
+</aside>
+
+<div class="app-shell" id="workspace">
+  <header class="topbar">
+    <div class="breadcrumb"><span data-i18n>工作区</span><span class="breadcrumb-slash">/</span><strong data-i18n>任务工作台</strong></div>
+    <div class="topbar-actions"><span class="connection-pill"><i></i><span id="connection" data-i18n>本地控制台</span></span>
+      <select id="language" aria-label="Language / 语言"><option value="zh-CN">中文</option><option value="en">English</option></select>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-heading">
+      <div><div class="eyebrow"><span></span> COMPUTE, ON YOUR TERMS</div><h1 data-i18n>AutoDL 算力哨兵</h1><p data-i18n>设定目标算力，让等待自动进行。</p></div>
+      <button type="button" id="login" class="button login-button"><svg class="icon"><use href="#i-external"/></svg><span data-i18n>打开 AutoDL 登录</span></button>
+    </div>
+
+    <div class="workspace-meta"><span class="market-tag"><svg class="icon"><use href="#i-chip"/></svg><span data-i18n>AutoDL 普通算力市场</span></span><span class="meta-divider"></span><span data-i18n>一次只运行一个任务</span><span class="meta-end">CONFIGURE <span>→</span> MATCH <span>→</span> RENT</span></div>
+
+    <div class="layout">
+      <form id="form" class="config-panel">
+        <div class="panel-header"><div><h2 data-i18n>租用配置</h2><p data-i18n>按你的需求，找到合适的下一台主机。</p></div><button type="button" id="load" class="button button-small"><svg class="icon"><use href="#i-refresh"/></svg><span data-i18n>读取选项</span></button></div>
+
+        <section class="config-section" id="sourceSection">
+          <div class="section-heading"><span class="section-number">01</span><h3 data-i18n>实例来源</h3><span class="section-caption">INSTANCE SOURCE</span></div>
+          <label class="visually-hidden" for="mode" data-i18n>创建方式</label>
+          <select id="mode" class="visually-hidden"><option value="create" data-i18n>从镜像创建</option><option value="clone" data-i18n>克隆已有实例</option></select>
+          <div class="mode-switch" role="group" aria-label="创建方式">
+            <button type="button" data-mode="create" aria-pressed="true"><svg class="icon"><use href="#i-grid"/></svg><span data-i18n>从镜像创建</span><span class="mode-check">✓</span></button>
+            <button type="button" data-mode="clone" aria-pressed="false"><svg class="icon"><use href="#i-copy"/></svg><span data-i18n>克隆已有实例</span><span class="mode-check">✓</span></button>
+          </div>
+          <label hidden id="sourceWrap" class="field"><span data-i18n>源实例</span><select id="source" disabled><option value="" data-i18n>请先读取实例</option></select></label>
+          <label class="field"><span data-i18n>镜像</span><select required id="image"><option value="" data-i18n>请先选择显卡</option></select></label>
+          <div hidden id="cloneRegionNote" class="region-note"><svg class="icon"><use href="#i-pin"/></svg><span data-i18n>仅在源实例所在地区寻找目标主机</span><span class="tiny-badge" data-i18n>同区克隆</span></div>
+          <label hidden id="copyWrap" class="toggle-row"><span class="toggle-copy"><strong data-i18n>同时复制数据盘</strong><small data-i18n>系统盘克隆后，继续复制数据盘中的文件。</small></span><input type="checkbox" id="copyData"><span class="toggle-track" aria-hidden="true"></span></label>
+        </section>
+
+        <section class="config-section" id="hardwareSection">
+          <div class="section-heading"><span class="section-number">02</span><h3 data-i18n>目标硬件</h3><span class="section-caption">TARGET HARDWARE</span></div>
+          <fieldset id="gpu"><legend><span data-i18n>候选显卡型号</span><span class="field-hint" data-i18n>可多选，任一型号命中即可</span></legend><div id="models"><span class="empty-models" data-i18n>登录后点击「读取选项」，选择目标 GPU</span></div></fieldset>
+          <div class="pair cpu-fields"><label hidden id="cpuWrap" class="field"><span data-i18n>目标 CPU 型号</span><input id="cpuName" list="cpuNames" data-i18n-placeholder="选填，例如 6459C" placeholder="选填，例如 6459C"><datalist id="cpuNames"></datalist><small data-i18n>多个型号用逗号分隔</small></label>
+          <label hidden id="coresWrap" class="field"><span data-i18n>每 GPU CPU 核心数</span><input id="cpuCores" list="cpuCoreOptions" type="text" inputmode="numeric" data-i18n-placeholder="选填，例如 16,25" placeholder="选填，例如 16,25"><datalist id="cpuCoreOptions"></datalist><small data-i18n>每张 GPU 分配的 CPU 核数</small></label></div>
+          <label class="field quantity-field"><span data-i18n>同机显卡数量</span><div class="input-unit"><input type="number" id="count" min="1" step="1" value="1" required><span data-i18n>张 GPU</span></div></label>
+        </section>
+
+        <section class="config-section" id="scheduleSection">
+          <div class="section-heading"><span class="section-number">03</span><h3 data-i18n>运行条件</h3><span class="section-caption">RUNTIME RULES</span></div>
+          <div class="pair"><label class="field"><span data-i18n>整机每小时上限</span><div class="input-unit"><input id="limit" type="number" min="0.001" step="any" data-i18n-placeholder="不限价" placeholder="不限价"><span>¥ / h</span></div></label>
+          <label class="field"><span data-i18n>数据盘可扩容下限</span><div class="input-unit"><input id="disk" type="number" min="0.001" step="any" data-i18n-placeholder="不限容量" placeholder="不限容量"><span>GB</span></div></label></div>
+          <div class="interval-row"><label class="field"><span data-i18n>重试间隔</span><div class="input-unit"><input type="number" id="interval" min="0.1" max="2147483647" step="0.1" value="30" required><span>sec</span></div></label><button hidden type="button" id="save" class="button button-small"><span data-i18n>保存重试间隔</span></button><p class="interval-note" data-i18n>最短 0.1 秒。每轮检查结束后，等待此间隔再继续。</p></div>
+        </section>
+
+        <div class="form-footer"><div class="actions"><button type="button" id="preview" class="button"><svg class="icon"><use href="#i-search"/></svg><span data-i18n>检查匹配</span></button><button type="button" class="button primary" id="start"><span data-i18n>开始抢卡</span><svg class="icon"><use href="#i-arrow"/></svg></button></div><small class="billing-note"><span class="billing-dot"></span><span data-i18n>开始后将自动按量租用一个实例，并产生 AutoDL 费用。</span></small></div>
+      </form>
+
+      <aside class="task-column">
+        <section class="task-panel" id="taskPanel" data-phase="idle" aria-labelledby="taskTitle">
+          <div class="task-header"><div class="task-label"><span class="live-dot"></span><h2 id="taskTitle" data-i18n>任务监控</h2></div><span id="phase" data-i18n>等待开始</span></div>
+          <div class="task-monitor"><div class="monitor-top"><span>LIVE MONITOR</span><svg class="icon"><use href="#i-chip"/></svg></div><p id="monitorCaption" data-i18n>准备就绪，等待开始</p><strong id="timer">—</strong><div id="due" data-i18n>尚未安排</div><div class="monitor-bottom"><span><i></i> AUTO POLLING</span><span id="monitorMode">STANDBY</span></div></div>
+          <div class="task-metrics"><div><span data-i18n>累计检查</span><strong id="attempts">0</strong></div><div><span data-i18n>重试间隔</span><strong id="intervalDisplay">30 <small>s</small></strong></div></div>
+          <div class="result-block"><div class="result-heading"><span data-i18n>最近结果</span><span class="result-indicator"></span></div><p id="message" aria-live="polite" data-i18n>等待开始</p></div>
+          <div class="task-controls controls"><button type="button" id="stop" class="button" hidden><span data-i18n>停止任务</span></button><button type="button" id="resume" class="button primary" hidden><span data-i18n>继续任务</span></button><button type="button" id="resolve" class="button" hidden><span data-i18n>手动核对</span></button></div>
+          <dl class="task-identifiers"><dt id="orderLabel" hidden data-i18n>订单标记</dt><dd id="order"></dd><dt id="idLabel" hidden data-i18n>实例 ID</dt><dd id="instance"></dd></dl>
+          <a class="instances-link" href="https://www.autodl.com/console/instance/list" target="_blank" rel="noreferrer"><span data-i18n>前往我的实例</span><svg class="icon"><use href="#i-external"/></svg></a>
+        </section>
+
+        <section class="summary-panel"><div class="summary-heading"><svg class="icon"><use href="#i-sliders"/></svg><h2 data-i18n>当前匹配条件</h2></div><dl><dt data-i18n>目标 GPU</dt><dd id="summaryGpu" data-i18n>尚未选择</dd><dt data-i18n>创建方式</dt><dd id="summaryMode" data-i18n>从镜像创建</dd><dt data-i18n>目标 CPU</dt><dd id="summaryCpu" data-i18n>不限</dd><dt data-i18n>可扩容空间</dt><dd id="summaryDisk" data-i18n>不限</dd></dl><div class="summary-note"><svg class="icon"><use href="#i-refresh"/></svg><span data-i18n>未匹配到主机时持续查找，无次数上限。</span></div></section>
+      </aside>
+    </div>
+    <div id="feedback" role="status" aria-live="polite" hidden></div>
+    <footer class="page-footer"><span>AUTODL SENTINEL <span class="footer-divider">/</span> LOCAL COMPUTE WORKSPACE</span><span data-i18n>让等待更有条理。</span></footer>
+  </main>
+</div>
+</body>
+</html>
