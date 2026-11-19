@@ -97,7 +97,11 @@
         <section class="task-panel" id="taskPanel" data-phase="idle" aria-labelledby="taskTitle">
           <div class="task-header"><div class="task-label"><span class="live-dot"></span><h2 id="taskTitle" data-i18n>任务监控</h2></div><span id="phase" data-i18n>等待开始</span></div>
           <div class="task-monitor"><div class="monitor-top"><span>LIVE MONITOR</span><svg class="icon"><use href="#i-chip"/></svg></div><p id="monitorCaption" data-i18n>准备就绪，等待开始</p><strong id="timer">—</strong><div id="due" data-i18n>尚未安排</div><div class="monitor-bottom"><span><i></i> AUTO POLLING</span><span id="monitorMode">STANDBY</span></div></div>
-          <div class="task-metrics"><div><span data-i18n>累计检查</span><strong id="attempts">0</strong></div><div><span data-i18n>重试间隔</span><strong id="intervalDisplay">30 <small>s</small></strong></div></div>
+          <div class="task-metrics">
+            <div><span data-i18n>累计检查</span><strong id="attempts">0</strong></div>
+            <div><span data-i18n>重试间隔</span><strong id="intervalDisplay">30 <small>s</small></strong></div>
+            <div class="elapsed-metric"><span id="elapsedLabel" data-i18n>累计耗时</span><strong id="elapsedTime" role="timer" aria-live="off" aria-labelledby="elapsedLabel">—</strong></div>
+          </div>
           <div class="result-block"><div class="result-heading"><span data-i18n>最近结果</span><span class="result-indicator"></span></div><p id="message" aria-live="polite" data-i18n>等待开始</p></div>
           <div class="task-controls controls"><button type="button" id="stop" class="button" hidden><span data-i18n>停止任务</span></button><button type="button" id="resume" class="button primary" hidden><span data-i18n>继续任务</span></button><button type="button" id="resolve" class="button" hidden><span data-i18n>手动核对</span></button></div>
           <dl class="task-identifiers"><dt id="orderLabel" hidden data-i18n>订单标记</dt><dd id="order"></dd><dt id="idLabel" hidden data-i18n>实例 ID</dt><dd id="instance"></dd></dl>

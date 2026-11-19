@@ -9,6 +9,7 @@ from uuid import uuid4
 from market import Pause, SoldOut
 
 logger = logging.getLogger(__name__)
+TIMED_PHASES = {"checking", "waiting", "submitting"}
 
 
 class Engine:
@@ -22,12 +23,25 @@ class Engine:
                                                        "due": None, "instance": None, "settings": None}
         self.worker = None
         self.changed = asyncio.Event()
+        self._elapsed_since = None
+
+    def elapsed_seconds(self, now=None):
+        elapsed = self.state.get("elapsed_seconds")
+        if self._elapsed_since is None:
+            return elapsed
+        now = time.monotonic() if now is None else now
+        return elapsed + (now - self._elapsed_since)
 
     def save(self, **changes):
-        updated = {**self.state, **changes}
+        now = time.monotonic()
+        updated = {**self.state, "elapsed_seconds": self.elapsed_seconds(now), **changes}
+        timing = updated["phase"] in TIMED_PHASES
+        if timing and updated["elapsed_seconds"] is None:
+            updated["elapsed_seconds"] = 0.0
         with self.db:
             self.db.execute("INSERT OR REPLACE INTO current VALUES (1, ?)", (json.dumps(updated),))
         self.state = updated
+        self._elapsed_since = now if timing else None
 
     def recover(self):
         if self.state["phase"] in ("submitting", "review"):
@@ -40,7 +54,7 @@ class Engine:
         if self.state["phase"] not in ("idle", "stopped", "success") or self.busy:
             raise Pause("请先处理当前任务。")
         self.save(phase="checking", attempts=0, due=None, instance=None, settings=settings, matched_gpu=None,
-                  name="grab-" + uuid4().hex[:16], message="正在查询市场。")
+                  elapsed_seconds=0.0, name="grab-" + uuid4().hex[:16], message="正在查询市场。")
         self.worker = asyncio.create_task(self.run())
 
     @property
@@ -147,6 +161,8 @@ class Engine:
         if self.busy:
             self.worker.cancel()
             await asyncio.gather(self.worker, return_exceptions=True)
+        if self._elapsed_since is not None:
+            self.save()
         self.db.close()
 
 

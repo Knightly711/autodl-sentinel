@@ -161,6 +161,7 @@
   "任务监控": "Task monitor",
   "准备就绪，等待开始": "Ready, waiting to start",
   "累计检查": "Checks",
+  "累计耗时": "Elapsed time",
   "前往我的实例": "Open my instances",
   "当前匹配条件": "Current match criteria",
   "目标 GPU": "Target GPU",
@@ -182,5 +183,10 @@
   "需要核对订单": "Order needs review",
   "任务已停止": "Task stopped",
   "实例已创建": "Instance created",
-  "AutoDL 算力哨兵": "AutoDL Sentinel"
+  "AutoDL 算力哨兵": "AutoDL Sentinel",
+  "请选择镜像或源实例": "Select an image or source instance",
+  "克隆实例时不需要选择镜像": "A clone does not need an image",
+  "已克隆": "Cloned",
+  "已创建": "Created",
+  "{action} {gpu} 实例，抢卡结束。": "{action} {gpu} instance. Task complete."
 }

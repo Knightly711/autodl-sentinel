@@ -2,8 +2,9 @@
 const el = id => document.getElementById(id);
 const labels = {idle:"等待开始", checking:"正在检查", waiting:"等待重试", paused:"已暂停",
   submitting:"正在创建", review:"待核对", stopped:"已停止", success:"已抢到"};
+const runningPhases = new Set(["checking", "waiting", "submitting"]);
 let lastFeedback;
-let state, account, lastTask, optionsRevision = 0, pending = false;
+let state, taskReceivedAt, account, lastTask, optionsRevision = 0, pending = false;
 
 async function api(path, body) {
   const opts = body === undefined ? {} : {method:"POST", headers:{"Content-Type":"application/json",
@@ -183,7 +184,7 @@ function render(data) {
   el("phase").textContent = t(labels[data.phase]);
   const captions = {idle:"准备就绪，等待开始",checking:"正在扫描可用主机",waiting:"等待下一轮检查",paused:"任务已暂停",submitting:"正在提交订单",review:"需要核对订单",stopped:"任务已停止",success:"实例已创建"};
   el("monitorCaption").textContent = t(captions[data.phase] || captions.idle);
-  el("monitorMode").textContent = ["checking","waiting","submitting"].includes(data.phase) ? "ACTIVE" : data.phase === "review" ? "REVIEW" : "STANDBY";
+  el("monitorMode").textContent = runningPhases.has(data.phase) ? "ACTIVE" : data.phase === "review" ? "REVIEW" : "STANDBY";
   el("attempts").textContent = t("{count} 次", {count:data.attempts});
   el("intervalDisplay").innerHTML = `${Number(data.settings?.interval ?? 0)} <small>s</small>`;
   el("message").textContent = t(data.message);
@@ -209,9 +210,23 @@ function render(data) {
 }
 function tick() {
   el("timer").textContent = state?.due ? Math.max(0, state.due - Date.now()/1000).toFixed(1) + " s" : "—";
+  let elapsedText = "—";
+  if (Number.isFinite(state?.elapsed_seconds)) {
+    const sincePoll = runningPhases.has(state.phase) ? (performance.now() - taskReceivedAt) / 1000 : 0;
+    const seconds = Math.floor(state.elapsed_seconds + sincePoll);
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor(seconds / 60) % 60;
+    elapsedText = [hours, minutes, seconds % 60].map(value => String(value).padStart(2, "0")).join(":");
+  }
+  const elapsedTime = el("elapsedTime");
+  if (elapsedTime.textContent !== elapsedText) elapsedTime.textContent = elapsedText;
 }
 async function poll() {
-  try { render(await api("task")); }
+  try {
+    const task = await api("task");
+    taskReceivedAt = performance.now();
+    render(task);
+  }
   catch (error) { feedback(t("无法连接本地服务，请检查启动窗口。"), true); }
 }
 async function refresh() { await poll(); setTimeout(refresh, 1000); }

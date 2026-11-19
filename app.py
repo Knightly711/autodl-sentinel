@@ -233,8 +233,9 @@ async def preview(config: Settings):
 
 @app.get("/api/task")
 async def status():
+    engine = app.state.engine
     bridge = getattr(app.state.market, "bridge", None)
-    return {**app.state.engine.state, "browser_mode": (
+    return {**engine.state, "elapsed_seconds": engine.elapsed_seconds(), "browser_mode": (
         "readonly" if bridge and bridge.online else "offline" if bridge else "dedicated")}
 
 

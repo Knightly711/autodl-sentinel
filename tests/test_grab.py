@@ -3,7 +3,7 @@ import tempfile
 import time
 import unittest
 from pathlib import Path
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 from engine import Engine
 from market import Market, Pause, SoldOut
@@ -131,6 +131,33 @@ class EngineTest(unittest.IsolatedAsyncioTestCase):
         self.assertIn(self.engine.state["phase"], ("checking", "waiting"))
         await self.engine.stop()
         self.assertEqual(self.engine.state["phase"], "stopped")
+
+    async def test_elapsed_time_resumes_after_restart_and_resets_for_new_task(self):
+        self.assertIsNone(self.engine.elapsed_seconds())
+        with patch("engine.time", wraps=time) as clock:
+            clock.monotonic.return_value = 100
+            self.engine.start(CONFIG)
+            await self.phase("waiting")
+            clock.monotonic.return_value = 105
+            self.assertEqual(self.engine.elapsed_seconds(), 5)
+            await self.engine.close()
+
+            clock.monotonic.return_value = 150
+            self.engine = Engine(self.market, self.file)
+            self.engine.recover()
+            self.assertEqual(self.engine.state["phase"], "paused")
+            self.assertEqual(self.engine.elapsed_seconds(), 5)
+
+            self.engine.resume()
+            await self.phase("waiting")
+            clock.monotonic.return_value = 154
+            await self.engine.stop()
+            clock.monotonic.return_value = 160
+            self.assertEqual(self.engine.elapsed_seconds(), 9)
+
+            self.engine.start(CONFIG)
+            self.assertEqual(self.engine.elapsed_seconds(), 0)
+            await self.engine.stop()
 
     async def test_change_during_check_and_stop(self):
         self.market.gate.clear()
