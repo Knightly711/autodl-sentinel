@@ -9,15 +9,16 @@
 租用配置新增「数据盘可扩容下限（GB）」输入框，按主机剩余可扩容数据盘容量过滤候选主机。
 涉及文件：`market.py`、`app.py`、`static/index.html`、`static/panel.js`、`extension/translations.json`、`tests/test_grab.py`
 
-### 2. 抢到卡后播放本地提示音
-实例创建成功时后端自动播放提示音（macOS 优先播放 `asset/success.aiff`，缺失回退系统 Glass 音效；Windows 使用系统提示音），无需保持工作台标签页打开。
-涉及文件：`engine.py`、`app.py`、`asset/success.aiff`
-
-### 3. 兼容性修复
+### 2. 兼容性修复
 - Playwright 专用浏览器反检测参数，解决 AutoDL 登录滑块验证码始终失败的问题
 - 工作台静态资源 no-cache，避免改版后浏览器缓存旧页面
 
-AutoDL Sentinel 是一个本地运行的 Web 工具，用来在 AutoDL 普通算力市场等候空闲 GPU。勾选一种或多种可接受的型号，选定镜像、同机卡数和整机小时预算，工具会按设定间隔检查市场，直到成功创建一个按量计费实例。
+
+### 3. 抢到卡后播放本地提示音
+实例创建成功时后端自动播放提示音（macOS 优先播放 `asset/success.aiff`，缺失回退系统 Glass 音效；Windows 使用系统提示音），无需保持工作台标签页打开。
+涉及文件：`engine.py`、`app.py`、`asset/success.aiff`
+
+AutoDL Sentinel（AutoDL 算力哨兵）是一个本地运行的 GPU 自动抢卡与实例克隆工具，用来在 AutoDL 普通算力市场等候空闲 GPU。勾选一种或多种可接受的型号，选定镜像、同机卡数和整机小时预算，工具会按设定间隔检查市场，直到成功创建一个按量计费实例。
 
 例如，同时勾选 RTX 4090 和 RTX 5090，数量填 2。只要其中一种型号在同一台主机上有两张空闲卡，且镜像和价格符合要求，就可以命中。每轮按市场返回的主机顺序匹配，勾选顺序不代表优先级。
 

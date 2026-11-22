@@ -8,15 +8,16 @@
 A new "Min expandable data disk (GB)" field filters candidate hosts by remaining expandable data disk capacity.
 Files: `market.py`, `app.py`, `static/index.html`, `static/panel.js`, `extension/translations.json`, `tests/test_grab.py`
 
-### 2. Success alert sound
-An alert sound plays from the backend when an instance is created (macOS prefers `asset/success.aiff` and falls back to the Glass chime; Windows uses the system beep). No need to keep the dashboard tab open.
-Files: `engine.py`, `app.py`, `asset/success.aiff`
-
-### 3. Compatibility fixes
+### 2. Compatibility fixes
 - Playwright anti-automation flags for the dedicated browser, fixing repeated slider CAPTCHA failures on the AutoDL login page
 - `Cache-Control: no-cache` for dashboard static assets, preventing stale pages after updates
 
-AutoDL Sentinel is a local web app that waits for GPUs in the standard AutoDL marketplace. Choose the models you can use, an image, a GPU count per host, and an optional hourly budget. The app checks availability at your interval and stops after creating one pay-as-you-go instance.
+
+### 3. Success alert sound
+An alert sound plays from the backend when an instance is created (macOS prefers `asset/success.aiff` and falls back to the Glass chime; Windows uses the system beep). No need to keep the dashboard tab open.
+Files: `engine.py`, `app.py`, `asset/success.aiff`
+
+AutoDL Sentinel is a local tool for GPU availability monitoring, instance creation, and cloning in the standard AutoDL marketplace. Choose the models you can use, an image, a GPU count per host, and an optional hourly budget. The app checks availability at your interval and stops after creating one pay-as-you-go instance.
 
 For example, select RTX 4090 and RTX 5090 and request two GPUs. Either model can match if one host has two free cards of that model, supports the selected image, and meets your price limit. Hosts are checked in marketplace order. The order in which you select the models does not assign a preference.
 
