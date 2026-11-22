@@ -89,3 +89,7 @@ macOS 的 Python 测试命令为 `.venv/bin/python -m unittest discover -s tests
 ## 许可证
 
 本项目采用 [MIT License](LICENSE)。允许使用、修改、分发及商业用途，分发副本或实质部分时须保留版权和许可声明。
+
+## 参考项目
+
+本项目参考了 [AutoDLGrab](https://github.com/CassianW86/AutoDLGrab)，并在此基础上扩展了实例克隆、数据盘复制、CPU 筛选、同地区匹配和新版工作台界面。

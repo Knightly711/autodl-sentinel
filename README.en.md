@@ -88,3 +88,7 @@ On macOS, run Python tests with `.venv/bin/python -m unittest discover -s tests 
 ## License
 
 Released under the [MIT License](LICENSE). Use, modification, redistribution, and commercial use are permitted. Include the copyright and license notices when distributing copies or substantial portions.
+
+## Reference
+
+This project references [AutoDLGrab](https://github.com/CassianW86/AutoDLGrab) and extends it with instance cloning, data-disk copying, CPU filters, same-region matching, and a redesigned dashboard.
